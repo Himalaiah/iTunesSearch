@@ -57,11 +57,14 @@
     TableViewCell *celula = [self.tableview dequeueReusableCellWithIdentifier:@"celulaPadrao"];
     
     Filme *filme = [midias objectAtIndex:indexPath.row];
-    
     [celula.nome setText:filme.nome];
     [celula.artista setText:filme.artista];
-    [celula.preco setText:[NSString stringWithFormat:@"Preço: $%@", filme.preco]];
-    
+    if (filme.preco == nil) {
+        [celula.preco setText:@"Grátis"];
+    }
+    else{
+        [celula.preco setText:[NSString stringWithFormat:@"Preço: $%@", filme.preco]];
+    }
     return celula;
 }
 
