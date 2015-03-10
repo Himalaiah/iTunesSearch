@@ -13,6 +13,7 @@
 
 @interface TableViewController () {
     NSArray *midias;
+    NSArray *secoes;
 }
 
 @end
@@ -29,6 +30,9 @@
     
     iTunesManager *itunes = [iTunesManager sharedInstance];
     midias = [itunes buscarMidias:@"Apple"];
+    
+    [_tableview setDelegate:self];
+    _tableview.dataSource = self;
     
 #warning Necessario para que a table view tenha um espaco em relacao ao topo, pois caso contrario o texto ficara atras da barra superior
     self.tableview.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableview.bounds.size.width, 15.f)];
@@ -55,14 +59,29 @@
     Filme *filme = [midias objectAtIndex:indexPath.row];
     
     [celula.nome setText:filme.nome];
-    [celula.tipo setText:@"Filme"];
+    [celula.artista setText:filme.artista];
+    [celula.preco setText:[NSString stringWithFormat:@"Preço: $%@", filme.preco]];
     
     return celula;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70;
+    return 100;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 25;
+}
+
+- (IBAction)search:(id)sender {
+    iTunesManager *itunes = [iTunesManager sharedInstance];
+    midias = [itunes buscarMidias:[NSString stringWithFormat:@"%@", self.texto.text]];
+    [self resignFirstResponder];
+    [self.tableview reloadData];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self resignFirstResponder];
+}
 
 @end

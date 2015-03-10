@@ -50,6 +50,7 @@ static bool isFirstAccess = YES;
     NSMutableArray *filmes = [[NSMutableArray alloc] init];
     
     for (NSDictionary *item in resultados) {
+
         Filme *filme = [[Filme alloc] init];
         [filme setNome:[item objectForKey:@"trackName"]];
         [filme setTrackId:[item objectForKey:@"trackId"]];
@@ -57,6 +58,7 @@ static bool isFirstAccess = YES;
         [filme setDuracao:[item objectForKey:@"trackTimeMillis"]];
         [filme setGenero:[item objectForKey:@"primaryGenreName"]];
         [filme setPais:[item objectForKey:@"country"]];
+        [filme setPreco:[item objectForKey:@"trackPrice"]];
         [filmes addObject:filme];
     }
     
