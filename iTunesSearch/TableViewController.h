@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *view;
 @property (strong, nonatomic) IBOutlet UITableView *tableview;
+@property (weak, nonatomic) IBOutlet UIButton *botao;
 
 @property (strong, nonatomic) IBOutlet UITextField *texto;
 - (IBAction)search:(id)sender;

@@ -9,11 +9,14 @@
 #import "TableViewController.h"
 #import "TableViewCell.h"
 #import "iTunesManager.h"
-#import "Entidades/Filme.h"
+#import "Entidade.h"
+#import "Filme.h"
+#import "Musica.h"
 
 @interface TableViewController () {
     NSArray *midias;
     NSArray *secoes;
+    NSMutableArray *midiasEncontradas;
 }
 
 @end
@@ -28,8 +31,7 @@
     UINib *nib = [UINib nibWithNibName:@"TableViewCell" bundle:nil];
     [self.tableview registerNib:nib forCellReuseIdentifier:@"celulaPadrao"];
     
-    iTunesManager *itunes = [iTunesManager sharedInstance];
-    midias = [itunes buscarMidias:@"Apple"];
+    [_botao setTitle:NSLocalizedString(@"Search", @"Botão") forState:UIControlStateNormal];
     
     [_tableview setDelegate:self];
     _tableview.dataSource = self;
@@ -56,7 +58,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TableViewCell *celula = [self.tableview dequeueReusableCellWithIdentifier:@"celulaPadrao"];
     
-    Filme *filme = [midias objectAtIndex:indexPath.row];
+    Entidade *filme = [midias objectAtIndex:indexPath.row];
     [celula.nome setText:filme.nome];
     [celula.artista setText:filme.artista];
     if (filme.preco == nil) {
@@ -79,12 +81,12 @@
 - (IBAction)search:(id)sender {
     iTunesManager *itunes = [iTunesManager sharedInstance];
     midias = [itunes buscarMidias:[NSString stringWithFormat:@"%@", self.texto.text]];
-    [self resignFirstResponder];
+    [self.view endEditing:YES];
     [self.tableview reloadData];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self resignFirstResponder];
+    [self.view endEditing:YES];
 }
 
 @end
